@@ -6,8 +6,8 @@ function flatten(obj) {
    return arr;
 }
 
-//second attempt, using recursion
-function flattenRecursive(obj, arr = []) {
+//Second attempt, using recursion
+const flattenRecursive = (obj, arr = []) => {
    for(let [key, value] of Object.entries(obj)){
       if(typeof value == 'string') {
          arr = [...arr, { [key]: value }];
@@ -16,6 +16,24 @@ function flattenRecursive(obj, arr = []) {
       }
    }
    return arr;
+}
+
+//More 'developer-friendly' version
+
+const flattenReadable = (object) => {
+   //iterate through the keys of the object, (object.keys works on arrays too)
+   return Object.keys(object).reduce((accumulator, key) => {
+      //get the value of the object. Works for both arrays and objects as well)
+      let value = object[key];
+      //check to see if the value is a string, in other words, you have reached the bottom of the array
+      if(typeof value === 'string') {
+         //place the key/value pair into the array of objects
+         return accumulator = [...accumulator, { [key]: value }];
+      } else {
+         //if the value is an object or array, recursively call flatten readable, passing the value as the 'object'
+         return accumulator = [...accumulator, ...flattenReadable(value)];
+      }
+   }, []);
 }
 
 var exampleInput = {
